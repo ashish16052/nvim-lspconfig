@@ -15,8 +15,15 @@
 -- Angular requires a node_modules directory to probe for @angular/language-service and typescript
 -- in order to use your projects configured versions.
 local root_dir = vim.fn.getcwd()
-local node_modules_dir = vim.fs.find('node_modules', { path = root_dir, upward = true })[1]
-local project_root = node_modules_dir and vim.fs.dirname(node_modules_dir) or '?'
+
+local root_file = vim.fs.find({ 'angular.json' }, { path = root_dir })[1]
+local project_root = root_file and vim.fs.dirname(root_file)
+
+-- fallback to node_modules if angular.json isn't found
+if not project_root then
+  local node_modules_dir = vim.fs.find('node_modules', { path = root_dir, upward = true })[1]
+  project_root = node_modules_dir and vim.fs.dirname(node_modules_dir) or '?'
+end
 
 local function get_probe_dir()
   return project_root and (project_root .. '/node_modules') or ''

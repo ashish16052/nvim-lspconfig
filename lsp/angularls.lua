@@ -16,7 +16,7 @@
 -- in order to use your projects configured versions.
 local root_dir = vim.fn.getcwd()
 
-local root_file = vim.fs.find({ 'angular.json' }, { upward = true, path = vim.fn.getcwd() })[1]
+local root_file = vim.fs.find({ 'angular.json' }, { path = root_dir })[1]
 local project_root = root_file and vim.fs.dirname(root_file)
 
 -- fallback to node_modules if angular.json/nx.json isn't found
